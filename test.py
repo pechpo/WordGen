@@ -26,12 +26,12 @@ decoder = TransformerDecoder(
     output_dim, hidden_dim, num_layers, num_heads, dropout)
 model = TransformerSeq2Seq(encoder, decoder)
 model = model.to(device)
-model.load_state_dict(torch.load("model.pth"))
+model.load_state_dict(torch.load("model 1.pth"))
 
 model.eval()
 res = [[]] * len(test_dataset)
 with torch.no_grad():
-    for batch_id, seq_in, seq_out, mask_in, mask_out in tqdm(enumerate(test_dataloader)):
+    for batch_id, (seq_in, seq_out, mask_in, mask_out) in tqdm(enumerate(test_dataloader)):
         seq_in = seq_in.to(device)
         seq_out = seq_out.to(device)
         mask_in = mask_in.to(device)
