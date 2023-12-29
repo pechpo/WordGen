@@ -55,6 +55,8 @@ for epoch_id in range(0, epoch):
         # print(seq_in.shape, seq_out.shape, sep="\n")
         seq_in = seq_in.to(device)
         seq_out = seq_out.to(device)
+        mask_in = mask_in.to(device)
+        mask_out = mask_out.to(device)
         # print(seq_in, seq_out, sep="\n")
         optimizer.zero_grad()
         output = model(seq_in, seq_out[:, :-1], mask_in, mask_out)  # 去掉目标句子的最后一个词，作为decoder输入
