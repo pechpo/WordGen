@@ -4,10 +4,6 @@ from tqdm import tqdm
 from setting import *
 import torch.optim as optim
 
-# 设备处理
-device = "cuda" if torch.cuda.is_available() else "cpu"
-print(f"Using {device} device")
-
 # 数据集处理
 batch_size = 10
 train_dataset = ROCStories_dataset(
@@ -76,6 +72,8 @@ for epoch_id in range(0, epoch):
         for seq_in, seq_out, mask_in, mask_out in val_dataloader:
             seq_in = seq_in.to(device)
             seq_out = seq_out.to(device)
+            mask_in = mask_in.to(device)
+            mask_out = mask_out.to(device)
             # 验证的阶段依旧使用teacher forcing，只有测试的时候不知道正确答案，需要自己生成
             output = model(seq_in, seq_out[:, :-1], mask_in, mask_out)
             loss = criterion( output.reshape(-1, output.shape[-1]), seq_out[:, 1:].reshape(-1))

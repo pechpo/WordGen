@@ -67,6 +67,7 @@ class TransformerDecoder(nn.Module):
         tgt = self.positional_encoding(tgt)
         seq_len = tgt.size(1)
         mask = torch.stack([torch.tensor([False]*i+[True]*(seq_len-i)) for i in range(1, seq_len+1)])
+        mask.to(device)
         #print(mask, mask_out)
         output = self.transformer_decoder(tgt, memory, tgt_mask=mask, tgt_key_padding_mask=mask_out)
         logit = self.linear(output)
