@@ -38,9 +38,9 @@ with torch.no_grad():
         #mask_out = mask_out.to(device)  # 由于输出序列长度可能不一致，这里不能用mask_out
         mask_out = None
         # 测试的阶段使用串行的token生成
-        decoder_input = torch.tensor(seq_out).to(device)
+        decoder_input = torch.tensor(seq_out)
         token_pos = 1
-        not_end = [False] * batch_size  # 表示该条故事是否还在生成
+        not_end = [True] * batch_size  # 表示该条故事是否还在生成
         while any(not_end):
             output = model(seq_in, decoder_input[:, :-1], mask_in, mask_out)
             decoder_input[:, token_pos] = torch.argmax(output, dim=2)
