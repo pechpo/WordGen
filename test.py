@@ -42,6 +42,8 @@ with torch.no_grad():
         seq_in = seq_in.to(device)
         seq_out = seq_out.to(device)
         output = model(seq_in, seq_out[:, :-1])
+        decoder_input = torch.tensor(seq_out)
+            #for i in range(1, seq_out.shape(1)):
         #print(output.shape)
         token = output.argmax(2)
         token_list = token.tolist()[0]
