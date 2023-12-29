@@ -14,7 +14,7 @@ train_dataloader = DataLoader(
 val_dataset = ROCStories_dataset(
     "../story_generation_dataset/ROCStories_val.csv")
 val_dataloader = DataLoader(
-    train_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate
+    val_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate
 )
 
 # 示例数据
@@ -86,4 +86,4 @@ for epoch_id in range(0, epoch):
     if total_loss < loss_min:
         loss_min = total_loss
         print(f"Temporarily Best Result in Epoch {epoch_id}, Saving Result.")
-        torch.save(model.state_dict(), "model.pth")
+        torch.save(model.state_dict(), f"model {epoch_id}.pth")
