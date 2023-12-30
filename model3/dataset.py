@@ -18,7 +18,7 @@ def preprocess_function(item):
     seq = item["storytitle"] + "\n"
     for i in range(1, 6):
         seq += item["sentence" + str(i)] + " "
-    return tokenizer([seq])
+    return tokenizer([seq], truncation=True)
 
 tokenized_datasets = datasets.map(preprocess_function
     ,remove_columns=datasets["train"].column_names)
@@ -29,7 +29,7 @@ def preprocess_function2(item):
 
 lm_datasets = tokenized_datasets.map(preprocess_function2)
 
-#print(lm_datasets["train"][0])
+print(lm_datasets["train"][0])
 
 tokenizer.pad_token = tokenizer.eos_token
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
