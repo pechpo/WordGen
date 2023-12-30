@@ -1,7 +1,7 @@
 from datasets import load_dataset
 import pandas as pd
 from transformers import AutoTokenizer
-from transformers import DataCollatorWithPadding
+from transformers import DataCollatorForSeq2Seq
 
 # 获得数据集
 path_train = "../story_generation_dataset/ROCStories_train.csv"
@@ -18,7 +18,7 @@ def preprocess_function(item):
     seq = item["storytitle"] + "\n"
     for i in range(1, 6):
         seq += item["sentence" + str(i)] + " "
-    return tokenizer([seq], truncation=True)
+    return tokenizer(seq, truncation=True)
 
 tokenized_datasets = datasets.map(preprocess_function
     ,remove_columns=datasets["train"].column_names)
@@ -32,4 +32,4 @@ lm_datasets = tokenized_datasets.map(preprocess_function2)
 print(lm_datasets["train"][0])
 
 tokenizer.pad_token = tokenizer.eos_token
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer)
