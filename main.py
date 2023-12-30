@@ -5,7 +5,7 @@ from setting import *
 import torch.optim as optim
 
 # 数据集处理
-batch_size = 10
+batch_size = 16
 train_dataset = ROCStories_dataset(
     "../story_generation_dataset/ROCStories_train.csv")
 train_dataloader = DataLoader(
@@ -45,6 +45,10 @@ model = model.to(device)
 #print("Named Model Parameters:")
 #for name,parameters in model.named_parameters():
     #print(name,':',parameters.size())
+
+#print("State Dict:")
+#for name in model.state_dict():
+    #print(name)
 
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
