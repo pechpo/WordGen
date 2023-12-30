@@ -21,6 +21,7 @@ def preprocess_function(item):
     return tokenizer([seq])
 
 tokenized_datasets = datasets.map(preprocess_function)
+tokenized_datasets = tokenized_datasets.remove_columns(datasets["train"].column_names)
 
 #print(tokenized_datasets["train"][0])
 
