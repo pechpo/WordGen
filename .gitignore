@@ -2,3 +2,4 @@ model*.pth
 **/__pycache__
 数据集*
 *.pptx
+my-gpt2-model

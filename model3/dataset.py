@@ -19,7 +19,7 @@ def preprocess_function(item):
     seq = item["storytitle"] + "\n"
     for i in range(1, 6):
         seq += item["sentence" + str(i)] + " "
-    return tokenizer([seq], padding=True)
+    return tokenizer([seq], padding=True, truncation=True)
 
 tokenized_datasets = datasets.map(preprocess_function)
 tokenized_datasets = tokenized_datasets.remove_columns(datasets["train"].column_names)
