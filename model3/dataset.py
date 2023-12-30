@@ -1,7 +1,7 @@
 from datasets import load_dataset
 import pandas as pd
 from transformers import AutoTokenizer
-from transformers import DataCollatorForLanguageModeling
+from transformers import DataCollatorWithPadding
 
 # 获得数据集
 path_train = "../story_generation_dataset/ROCStories_train.csv"
@@ -32,4 +32,4 @@ lm_datasets = tokenized_datasets.map(preprocess_function2)
 #print(lm_datasets["train"][0])
 
 tokenizer.pad_token = tokenizer.eos_token
-data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
