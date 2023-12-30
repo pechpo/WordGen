@@ -8,18 +8,18 @@ model = AutoModelForCausalLM.from_pretrained("distilgpt2")
 
 #训练
 training_args = TrainingArguments(
-    output_dir="my-gpt2-model",
+    output_dir="my_awesome_eli5_clm-model",
     evaluation_strategy="epoch",
     learning_rate=2e-5,
     weight_decay=0.01,
-    push_to_hub=False,
+    push_to_hub=True,
 )
 
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["val"],
+    train_dataset=lm_datasets["train"],
+    eval_dataset=lm_datasets["val"],
     data_collator=data_collator,
 )
 
