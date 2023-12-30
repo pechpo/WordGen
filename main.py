@@ -5,7 +5,7 @@ from setting import *
 import torch.optim as optim
 
 # 数据集处理
-batch_size = 16
+
 train_dataset = ROCStories_dataset(
     "../story_generation_dataset/ROCStories_train.csv")
 train_dataloader = DataLoader(
@@ -20,15 +20,6 @@ val_dataloader = DataLoader(
 # 示例数据
 # src_data = torch.randint(0, 100, (10, 32))  # 10个句子，每个句子32个词
 # tgt_data = torch.randint(0, 100, (10, 30))  # 10个目标句子，每个句子30个词
-
-# 定义模型和优化器
-input_dim = 100400  # 输入词典大小
-output_dim = 100400  # 输出词典大小
-hidden_dim = 512  # 隐藏层大小
-num_layers = 6  # Transformer层数
-num_heads = 8  # 注意力头数
-dropout = 0.1  # Dropout概率
-epoch = 10
 
 encoder = TransformerEncoder(
     input_dim, hidden_dim, num_layers, num_heads, dropout)
@@ -59,6 +50,7 @@ loss_min = 1e9
 
 for epoch_id in range(0, epoch):
     # 训练
+    model.train()
     pbar = tqdm(total=len(train_dataloader), desc=f"Training Epoch {epoch_id}")
     for seq_in, seq_out, mask_in, mask_out in train_dataloader:
         # print(seq_in.shape, seq_out.shape, sep="\n")
@@ -69,6 +61,7 @@ for epoch_id in range(0, epoch):
         #print(seq_in, seq_out, mask_in, mask_out)
         optimizer.zero_grad()
         output = model(seq_in, seq_out[:, :-1], mask_in, mask_out)  # 去掉目标句子的最后一个词，作为decoder输入
+        #print(seq_out[:, :-1], output.argmax(dim=2))
         loss = criterion(
             output.reshape(-1, output.shape[-1]), seq_out[:, 1:].reshape(-1)
         )  # 计算交叉熵损失，比较模型输出和去掉目标句子的第一个词的序列

@@ -5,21 +5,11 @@ from setting import *
 import pandas as pd
 
 # 数据集处理
-batch_size = 16
 test_dataset = ROCStories_dataset(
     "../story_generation_dataset/ROCStories_test.csv")
 test_dataloader = DataLoader(
     test_dataset, batch_size=batch_size, shuffle=False, collate_fn=collate
 )
-
-# 定义和加载模型
-input_dim = 100400  # 输入词典大小
-output_dim = 100400  # 输出词典大小
-hidden_dim = 512  # 隐藏层大小
-num_layers = 6  # Transformer层数
-num_heads = 8  # 注意力头数
-dropout = 0.1  # Dropout概率
-max_len = 200  # 最大输出长度
 
 encoder = TransformerEncoder(
     input_dim, hidden_dim, num_layers, num_heads, dropout)
@@ -27,7 +17,7 @@ decoder = TransformerDecoder(
     output_dim, hidden_dim, num_layers, num_heads, dropout)
 model = TransformerSeq2Seq(encoder, decoder)
 model = model.to(device)
-model.load_state_dict(torch.load("model 1.pth"))
+model.load_state_dict(torch.load("model 7.pth"))
 
 model.eval()
 res = [[]] * len(test_dataset)
@@ -50,13 +40,13 @@ with torch.no_grad():
                 if end[i] == True:
                     continue
                 id = batch_id * batch_size + i
-                res[id].append(decoder_input[i][token_pos])
+                res[id].append(decoder_input[i][token_pos].item())
                 if decoder_input[i][token_pos] == end_token or token_pos == max_len-1:
                     end[i] = True
             token_pos += 1
         for i in range(0, batch_size):
             id = batch_id * batch_size + i
-            print(res[id])
+            print(id, res[id])
 
 enc = tiktoken.get_encoding("cl100k_base")
 id_list = []
