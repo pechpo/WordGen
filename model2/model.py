@@ -26,61 +26,29 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 
 
-class TransformerEncoder(nn.Module):
+class Transformer(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_layers, num_heads, dropout):
-        super(TransformerEncoder, self).__init__()
+        super(Transformer, self).__init__()
         self.embedding = nn.Embedding(
             input_dim, hidden_dim, padding_idx=padding_token)
         self.positional_encoding = PositionalEncoding(hidden_dim)
-        self.transformer_layer = nn.TransformerEncoderLayer(
-            d_model=hidden_dim, nhead=num_heads, dropout=dropout, batch_first=True
-        )
-        self.transformer_encoder = nn.TransformerEncoder(
-            self.transformer_layer, num_layers=num_layers, norm=nn.LayerNorm(
-                hidden_dim)
-        )
-
-    def forward(self, src, mask_in):
-        src = self.embedding(src)
-        src = self.positional_encoding(src)
-        output = self.transformer_encoder(src, src_key_padding_mask=mask_in)
-        return output
-
-
-class TransformerDecoder(nn.Module):
-    def __init__(self, output_dim, hidden_dim, num_layers, num_heads, dropout):
-        super(TransformerDecoder, self).__init__()
-        self.embedding = nn.Embedding(
-            output_dim, hidden_dim, padding_idx=padding_token)
-        self.positional_encoding = PositionalEncoding(hidden_dim)
-        self.transformer_layer = nn.TransformerDecoderLayer(
-            d_model=hidden_dim, nhead=num_heads, dropout=dropout, batch_first=True
-        )
-        self.transformer_decoder = nn.TransformerDecoder(
-            self.transformer_layer, num_layers=num_layers, norm=nn.LayerNorm(
-                hidden_dim)
+        self.transformer = nn.Transformer(
+            d_model=hidden_dim, nhead=num_heads, dropout=dropout, batch_first=True,
+            num_encoder_layers=num_layers, num_decoder_layers=num_layers
         )
         self.linear = nn.Linear(hidden_dim, output_dim)
 
-    def forward(self, tgt, memory, mask_out):
+    def forward(self, src, tgt, mask_in, mask_out):
+        src = self.embedding(src)
+        src = self.positional_encoding(src)
         tgt = self.embedding(tgt)
         tgt = self.positional_encoding(tgt)
         seq_len = tgt.size(1)
-        mask = torch.stack([torch.tensor([False]*i+[True]*(seq_len-i)) for i in range(1, seq_len+1)])
+        mask = torch.stack([torch.tensor([False]*i+[True]*(seq_len-i))
+                           for i in range(1, seq_len+1)])
         mask = mask.to(device)
-        #print(mask, mask_out)
-        output = self.transformer_decoder(tgt, memory, tgt_mask=mask, tgt_key_padding_mask=mask_out)
+        output = self.transformer(src, tgt, tgt_mask=mask,
+                                  src_key_padding_mask=mask_in, tgt_key_padding_mask=mask_out,
+                                  tgt_is_causal=True)
         logit = self.linear(output)
         return logit
-
-
-class TransformerSeq2Seq(nn.Module):
-    def __init__(self, encoder, decoder):
-        super(TransformerSeq2Seq, self).__init__()
-        self.encoder = encoder
-        self.decoder = decoder
-
-    def forward(self, src, tgt, mask_in, mask_out):
-        encoder_output = self.encoder(src, mask_in)
-        decoder_output = self.decoder(tgt, encoder_output, mask_out)
-        return decoder_output
