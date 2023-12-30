@@ -1,2 +1,4 @@
 model*.pth
 **/__pycache__
+数据集*
+*.pptx
