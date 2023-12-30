@@ -30,7 +30,7 @@ def preprocess_function2(item):
 
 lm_datasets = tokenized_datasets.map(preprocess_function2)
 
-print(lm_datasets["train"][0])
+#print(lm_datasets["train"][0])
 
 tokenizer.pad_token = tokenizer.eos_token
 data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
