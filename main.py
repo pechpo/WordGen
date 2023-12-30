@@ -37,6 +37,14 @@ decoder = TransformerDecoder(
 model = TransformerSeq2Seq(encoder, decoder)
 model = model.to(device)
 
+print("Model Parameters:")
+for param in model.parameters():
+    print(param)
+
+print("Named Model Parameters:")
+for name,parameters in model.named_parameters():
+    print(name,':',parameters.size())
+
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # 损失函数
