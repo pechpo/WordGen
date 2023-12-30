@@ -8,11 +8,11 @@ model = AutoModelForCausalLM.from_pretrained("distilgpt2")
 
 #训练
 training_args = TrainingArguments(
-    output_dir="my_awesome_eli5_clm-model",
+    output_dir="my-gpt2-model",
     evaluation_strategy="epoch",
     learning_rate=2e-5,
     weight_decay=0.01,
-    push_to_hub=True,
+    push_to_hub=False,
 )
 
 trainer = Trainer(

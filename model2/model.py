@@ -17,6 +17,7 @@ class PositionalEncoding(nn.Module):
         pe = torch.zeros(1, max_len, d_model)
         pe[0, :, 0::2] = torch.sin(position * div_term)
         pe[0, :, 1::2] = torch.cos(position * div_term)
+        #print(pe)
         self.register_buffer('pe', pe)  # 不用梯度下降，但是需要保存为参数
 
     def forward(self, x):
@@ -34,7 +35,8 @@ class Transformer(nn.Module):
         self.positional_encoding = PositionalEncoding(hidden_dim)
         self.transformer = nn.Transformer(
             d_model=hidden_dim, nhead=num_heads, dropout=dropout, batch_first=True,
-            num_encoder_layers=num_layers, num_decoder_layers=num_layers
+            num_encoder_layers=num_layers, num_decoder_layers=num_layers,
+            activation='gelu', norm_first=True
         )
         self.linear = nn.Linear(hidden_dim, output_dim)
 

@@ -23,20 +23,19 @@ model = Transformer(
     input_dim, hidden_dim, num_layers, num_heads, dropout)
 model = model.to(device)
 
-# print("Model Parameters:")
-# for param in model.parameters():
-# print(param.shape, param.dtype, param.requires_grad)
-# print(param)
+#print("Model Parameters:")
+#for param in model.parameters():
+    #print(param)
 
-# print("Named Model Parameters:")
-# for name,parameters in model.named_parameters():
-# print(name,':',parameters.size())
+#print("Named Model Parameters:")
+#for name,parameters in model.named_parameters():
+    #print(name,':',parameters.size())
 
 # print("State Dict:")
 # for name in model.state_dict():
 # print(name)
 
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=lr_rate)
 
 # 损失函数
 criterion = nn.CrossEntropyLoss(ignore_index=padding_token)
