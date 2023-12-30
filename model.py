@@ -82,5 +82,7 @@ class TransformerSeq2Seq(nn.Module):
 
     def forward(self, src, tgt, mask_in, mask_out):
         encoder_output = self.encoder(src, mask_in)
+        #print(encoder_output)
         decoder_output = self.decoder(tgt, encoder_output, mask_out)
+        #print(decoder_output)
         return decoder_output

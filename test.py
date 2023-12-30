@@ -19,11 +19,14 @@ model = TransformerSeq2Seq(encoder, decoder)
 model = model.to(device)
 model.load_state_dict(torch.load("model 7.pth"))
 
+enc = tiktoken.get_encoding("cl100k_base")
+
 model.eval()
 res = [[]] * len(test_dataset)
 with torch.no_grad():
     for batch_id, (seq_in, seq_out, mask_in, mask_out) in enumerate(tqdm(test_dataloader)):
         seq_in = seq_in.to(device)
+        #print(seq_in)
         #seq_out = seq_out.to(device)  # 不用
         mask_in = mask_in.to(device)
         #mask_out = mask_out.to(device)  # 由于输出序列长度可能不一致，这里不能用mask_out
@@ -36,6 +39,7 @@ with torch.no_grad():
         while not all(end):
             output = model(seq_in, decoder_input, mask_in, mask_out)
             decoder_input[:, token_pos] = torch.argmax(output, dim=2)[:, token_pos-1]
+            #print(decoder_input)
             for i in range(0, batch_size):
                 if end[i] == True:
                     continue
@@ -46,9 +50,8 @@ with torch.no_grad():
             token_pos += 1
         for i in range(0, batch_size):
             id = batch_id * batch_size + i
-            print(id, res[id])
+            print(id, enc.decode(res[id][:50]))
 
-enc = tiktoken.get_encoding("cl100k_base")
 id_list = []
 text_result = []
 for story_id, seq in enumerate(res):
