@@ -13,17 +13,24 @@ datasets = load_dataset("csv", data_files=data_files)
 
 # 处理数据集
 tokenizer = AutoTokenizer.from_pretrained("distilgpt2")
+tokenizer.pad_token = tokenizer.eos_token
 
 def preprocess_function(item):
     seq = item["storytitle"] + "\n"
     for i in range(1, 6):
         seq += item["sentence" + str(i)] + " "
-    return tokenizer([seq])
+    return tokenizer([seq], padding=True)
 
 tokenized_datasets = datasets.map(preprocess_function)
 tokenized_datasets = tokenized_datasets.remove_columns(datasets["train"].column_names)
 
-#print(tokenized_datasets["train"][0])
+def preprocess_function2(item):
+    item["labels"] = item["input_ids"].copy()
+    return item
+
+lm_datasets = tokenized_datasets.map(preprocess_function2)
+
+print(lm_datasets["train"][0])
 
 tokenizer.pad_token = tokenizer.eos_token
 data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
