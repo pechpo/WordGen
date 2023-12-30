@@ -21,6 +21,7 @@ trainer = Trainer(
     train_dataset=lm_datasets["train"],
     eval_dataset=lm_datasets["val"],
     data_collator=data_collator,
+    tokenizer=tokenizer
 )
 
 trainer.train()
