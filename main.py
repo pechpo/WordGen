@@ -37,18 +37,19 @@ decoder = TransformerDecoder(
 model = TransformerSeq2Seq(encoder, decoder)
 model = model.to(device)
 
-print("Model Parameters:")
-for param in model.parameters():
-    print(param)
+#print("Model Parameters:")
+#for param in model.parameters():
+    #print(param.shape, param.dtype, param.requires_grad)
+    #print(param)
 
-print("Named Model Parameters:")
-for name,parameters in model.named_parameters():
-    print(name,':',parameters.size())
+#print("Named Model Parameters:")
+#for name,parameters in model.named_parameters():
+    #print(name,':',parameters.size())
 
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # 损失函数
-criterion = nn.CrossEntropyLoss()
+criterion = nn.CrossEntropyLoss(ignore_index=padding_token)
 
 loss_min = 1e9
 
@@ -61,7 +62,7 @@ for epoch_id in range(0, epoch):
         seq_out = seq_out.to(device)
         mask_in = mask_in.to(device)
         mask_out = mask_out.to(device)
-        # print(seq_in, seq_out, sep="\n")
+        #print(seq_in, seq_out, mask_in, mask_out)
         optimizer.zero_grad()
         output = model(seq_in, seq_out[:, :-1], mask_in, mask_out)  # 去掉目标句子的最后一个词，作为decoder输入
         loss = criterion(
@@ -84,7 +85,7 @@ for epoch_id in range(0, epoch):
             mask_out = mask_out.to(device)
             # 验证的阶段依旧使用teacher forcing，只有测试的时候不知道正确答案，需要自己生成
             output = model(seq_in, seq_out[:, :-1], mask_in, mask_out)
-            loss = criterion( output.reshape(-1, output.shape[-1]), seq_out[:, 1:].reshape(-1))
+            loss = criterion(output.reshape(-1, output.shape[-1]), seq_out[:, 1:].reshape(-1))
             total_loss += loss
             pbar.set_postfix({"loss": loss.item()})
             pbar.update(1)
