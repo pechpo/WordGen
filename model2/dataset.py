@@ -54,4 +54,5 @@ def collate(seq_list):  # 给同一个batch内的序列补齐，并生成对应�
         )
         mask_out[i, :] = torch.tensor(mask[:-1])  # 输出序列的最后一个token是被丢掉的
     # print(seq_in, seq_out, sep="\n")
+    # print(mask_in.shape, mask_out.shape)
     return torch.stack(seq_in), torch.stack(seq_out), mask_in, mask_out

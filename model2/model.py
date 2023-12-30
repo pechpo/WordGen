@@ -46,6 +46,8 @@ class Transformer(nn.Module):
         seq_len = tgt.size(1)
         mask = torch.stack([torch.tensor([False]*i+[True]*(seq_len-i))
                            for i in range(1, seq_len+1)])
+        mask = mask.unsqueeze(0).repeat([batch_size * num_heads, 1, 1])
+        #print(mask.shape)
         mask = mask.to(device)
         output = self.transformer(src, tgt, tgt_mask=mask,
                                   src_key_padding_mask=mask_in, tgt_key_padding_mask=mask_out,
