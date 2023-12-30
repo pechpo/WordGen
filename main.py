@@ -46,6 +46,10 @@ model = model.to(device)
 #for name,parameters in model.named_parameters():
     #print(name,':',parameters.size())
 
+#print("State Dict:")
+#for name in model.state_dict():
+    #print(name)
+
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # 损失函数
