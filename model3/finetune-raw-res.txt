@@ -1,0 +1,34 @@
+{'loss': 3.274, 'learning_rate': 1.9111111111111113e-05, 'epoch': 0.13}                                                     
+{'loss': 3.1464, 'learning_rate': 1.8222222222222224e-05, 'epoch': 0.27}                                                    
+{'loss': 3.092, 'learning_rate': 1.7333333333333336e-05, 'epoch': 0.4}                                                      
+{'loss': 3.0739, 'learning_rate': 1.6444444444444444e-05, 'epoch': 0.53}                                                    
+{'loss': 3.0566, 'learning_rate': 1.555555555555556e-05, 'epoch': 0.67}                                                     
+{'loss': 3.0308, 'learning_rate': 1.4666666666666666e-05, 'epoch': 0.8}                                                     
+{'loss': 3.0252, 'learning_rate': 1.377777777777778e-05, 'epoch': 0.93}                                                     
+{'eval_loss': 2.939065933227539, 'eval_runtime': 26.0482, 'eval_samples_per_second': 383.904, 'eval_steps_per_second': 47.988, 'epoch': 1.0}                                                                                                            
+{'loss': 2.9746, 'learning_rate': 1.288888888888889e-05, 'epoch': 1.07}                                                     
+{'loss': 2.9256, 'learning_rate': 1.2e-05, 'epoch': 1.2}                                                                    
+{'loss': 2.9152, 'learning_rate': 1.1111111111111113e-05, 'epoch': 1.33}                                                    
+{'loss': 2.9182, 'learning_rate': 1.0222222222222223e-05, 'epoch': 1.47}                                                    
+{'loss': 2.9298, 'learning_rate': 9.333333333333334e-06, 'epoch': 1.6}                                                      
+{'loss': 2.9137, 'learning_rate': 8.444444444444446e-06, 'epoch': 1.73}                                                     
+{'loss': 2.9105, 'learning_rate': 7.555555555555556e-06, 'epoch': 1.87}                                                     
+{'loss': 2.9112, 'learning_rate': 6.666666666666667e-06, 'epoch': 2.0}                                                      
+{'eval_loss': 2.892259120941162, 'eval_runtime': 25.9889, 'eval_samples_per_second': 384.78, 'eval_steps_per_second': 48.097, 'epoch': 2.0}                                                                                                             
+{'loss': 2.8699, 'learning_rate': 5.777777777777778e-06, 'epoch': 2.13}                                                     
+{'loss': 2.8579, 'learning_rate': 4.888888888888889e-06, 'epoch': 2.27}                                                     
+{'loss': 2.8519, 'learning_rate': 4.000000000000001e-06, 'epoch': 2.4}                                                      
+{'loss': 2.863, 'learning_rate': 3.1111111111111116e-06, 'epoch': 2.53}                                                     
+{'loss': 2.8597, 'learning_rate': 2.222222222222222e-06, 'epoch': 2.67}                                                     
+{'loss': 2.8604, 'learning_rate': 1.3333333333333334e-06, 'epoch': 2.8}                                                     
+{'loss': 2.8615, 'learning_rate': 4.444444444444445e-07, 'epoch': 2.93}                                                     
+{'eval_loss': 2.884920358657837, 'eval_runtime': 26.08, 'eval_samples_per_second': 383.435, 'eval_steps_per_second': 47.929, 'epoch': 3.0}                                                                                                              
+{'train_runtime': 859.8922, 'train_samples_per_second': 104.664, 'train_steps_per_second': 13.083, 'train_loss': 2.957813324652778, 'epoch': 3.0}                                                                                                       
+100%|█████████████████████████████████████████████████████████████████████████████████| 11250/11250 [14:19<00:00, 13.08it/s]
+100%|███████████████████████████████████████████████████████████████████████████████████| 1250/1250 [00:26<00:00, 47.93it/s]
+Perplexity: 17.90
+
+['Hiking\nJoe and David went hiking often.  The hike lasted about one hour and David was nervous. Joe decided to stay up all night for a bit.  David was really glad that he stayed up all night. ']
+['Back 2\nHe suggested a downtown restaurant.  he thought of a better downtown.  he decided to go downtown instead.  he found it cheaper than downtown. ']
+['When\nThe cheese grater was brought to the table.  The cheese grater was not properly prepared.  The cheese grater was too big for the grater.  The grater was too thin and too thin. ']
+['Different Music\nTom liked really weird music.  He had a favorite artist who made it. He went to the store and bought it. He played it on the radio every day and was very excited. ']

@@ -27,9 +27,9 @@ model = model.to(device)
 #for param in model.parameters():
     #print(param)
 
-#print("Named Model Parameters:")
-#for name,parameters in model.named_parameters():
-    #print(name,':',parameters.size())
+print("Named Model Parameters:")
+for name,parameters in model.named_parameters():
+    print(name,':',parameters.size())
 
 # print("State Dict:")
 # for name in model.state_dict():
@@ -61,6 +61,7 @@ for epoch_id in range(0, epoch):
             output.reshape(-1, output.shape[-1]), seq_out[:, 1:].reshape(-1)
         )  # 计算交叉熵损失，比较模型输出和去掉目标句子的第一个词的序列
         loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 0.5)
         optimizer.step()
         pbar.set_postfix({"loss": loss.item()})
         pbar.update(1)

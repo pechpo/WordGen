@@ -22,7 +22,7 @@ class PositionalEncoding(nn.Module):
 
     def forward(self, x):
         # x: [batch, sequence, embedding]
-        # print(x.shape)
+        #print(x.shape, self.pe.shape)
         x = x + self.pe[0, :x.size(1), :]  # 长度不够就截断。注意batch部分触发了广播机制
         return self.dropout(x)
 
@@ -39,6 +39,14 @@ class Transformer(nn.Module):
             activation='gelu', norm_first=True
         )
         self.linear = nn.Linear(hidden_dim, output_dim)
+
+        self.init_weights()
+    
+    def init_weights(self) -> None:
+        initrange = 0.1
+        self.embedding.weight.data.uniform_(-initrange, initrange)
+        self.linear.bias.data.zero_()
+        self.linear.weight.data.uniform_(-initrange, initrange)
 
     def forward(self, src, tgt, mask_in, mask_out):
         src = self.embedding(src)
